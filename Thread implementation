@@ -1,0 +1,22 @@
+public class WorkerThread implements Runnable {
+    
+    private String name;
+    
+    public WorkerThread(String name) {
+        this.name = name;
+    }
+    
+    @Override
+    public void run() {
+        System.out.println("Worker thread " + name + " is executing.");
+        // Add your task here
+    }
+    
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(new WorkerThread("1"));
+        Thread thread2 = new Thread(new WorkerThread("2"));
+        
+        thread1.start();
+        thread2.start();
+    }
+}
