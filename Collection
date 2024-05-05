@@ -1,0 +1,28 @@
+The `java.util` package in Java provides a wide range of collection classes and interfaces for storing, manipulating, and accessing groups of objects. Here's an overview of some key collection classes and interfaces in the `java.util` package:
+
+### Interfaces:
+1. **Collection**: The root interface in the collection hierarchy. It represents a group of objects, known as elements. Common subinterfaces include `List`, `Set`, and `Queue`.
+2. **List**: Represents an ordered collection (sequence) of elements where duplicates are allowed. Common implementations include `ArrayList`, `LinkedList`, and `Vector`.
+3. **Set**: Represents a collection that does not allow duplicate elements. Common implementations include `HashSet`, `LinkedHashSet`, and `TreeSet`.
+4. **Map**: Represents a collection of key-value pairs, where each key is associated with a single value. Common implementations include `HashMap`, `LinkedHashMap`, and `TreeMap`.
+
+### Classes:
+1. **ArrayList**: Resizable-array implementation of the `List` interface. It dynamically resizes its array when elements are added or removed.
+2. **LinkedList**: Doubly-linked list implementation of the `List` interface. It provides efficient insertion and deletion operations.
+3. **HashSet**: Hash table-based implementation of the `Set` interface. It does not guarantee the order of elements.
+4. **TreeSet**: Red-black tree-based implementation of the `NavigableSet` interface. It maintains elements in sorted order.
+5. **HashMap**: Hash table-based implementation of the `Map` interface. It provides constant-time performance for basic operations.
+6. **TreeMap**: Red-black tree-based implementation of the `NavigableMap` interface. It maintains key-value pairs in sorted order.
+
+### Other Interfaces and Classes:
+1. **Iterator**: Interface for iterating over elements in a collection.
+2. **ListIterator**: Interface for bidirectional iteration over elements in a list.
+3. **Queue**: Interface for a collection designed for holding elements before processing.
+4. **Deque**: Interface for a double-ended queue.
+5. **PriorityQueue**: Implementation of a priority queue based on a priority heap.
+
+### Legacy Collections:
+1. **Vector**: Resizable-array implementation similar to `ArrayList`, but it's synchronized.
+2. **Hashtable**: Hash table-based implementation similar to `HashMap`, but it's synchronized.
+
+These are just some of the key collection classes and interfaces available in the `java.util` package. Each collection type has its own strengths and use cases, so it's important to choose the appropriate one based on the requirements of your application.
