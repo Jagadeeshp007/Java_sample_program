@@ -1,0 +1,35 @@
+To remove and peek elements from a `CopyOnWriteArrayList`, you can use its methods `remove()` and `get()` respectively. Here's how you can do it:
+
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Example {
+    public static void main(String[] args) {
+        // Create a CopyOnWriteArrayList
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+
+        // Add elements to the list
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Orange");
+
+        // Remove an element
+        list.remove("Banana");
+        System.out.println("After removal: " + list);
+
+        // Peek an element (get without removing)
+        String peekedElement = list.get(0);
+        System.out.println("Peeked element: " + peekedElement);
+    }
+}
+```
+
+In this example:
+
+- We create a `CopyOnWriteArrayList` named `list`.
+- We add some elements to the list using the `add()` method.
+- We remove an element "Banana" from the list using the `remove()` method.
+- We peek an element from the list using the `get()` method without removing it. The index `0` represents the first element in the list.
+- We print the modified list after removal and the peeked element.
+
+Remember that `CopyOnWriteArrayList` is designed to be thread-safe, so removing and peeking elements can be safely done concurrently with reads from other threads without causing any `ConcurrentModificationException`.
