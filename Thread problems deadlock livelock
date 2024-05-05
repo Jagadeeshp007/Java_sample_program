@@ -1,0 +1,115 @@
+Sure, let's discuss each of these thread problems:
+
+1. **Deadlock**:
+   - Deadlock occurs when two or more threads are blocked indefinitely, waiting for each other to release resources that they need.
+   - This typically happens when multiple threads acquire locks in a different order and then wait for each other to release locks they hold.
+   - Here's a simple example of a deadlock scenario:
+
+     ```java
+     public class DeadlockExample {
+         private static final Object lock1 = new Object();
+         private static final Object lock2 = new Object();
+     
+         public static void main(String[] args) {
+             Thread thread1 = new Thread(() -> {
+                 synchronized (lock1) {
+                     System.out.println("Thread 1 acquired lock1");
+                     try {
+                         Thread.sleep(100);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                     synchronized (lock2) {
+                         System.out.println("Thread 1 acquired lock2");
+                     }
+                 }
+             });
+     
+             Thread thread2 = new Thread(() -> {
+                 synchronized (lock2) {
+                     System.out.println("Thread 2 acquired lock2");
+                     try {
+                         Thread.sleep(100);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                     synchronized (lock1) {
+                         System.out.println("Thread 2 acquired lock1");
+                     }
+                 }
+             });
+     
+             thread1.start();
+             thread2.start();
+         }
+     }
+     ```
+
+2. **Livelock**:
+   - Livelock is a special case of resource starvation where two or more threads are actively trying to resolve a deadlock but keep responding to each other's actions without making progress.
+   - In a livelock scenario, threads are not blocked, but they are unable to make progress because they are constantly responding to each other.
+   - Here's a hypothetical example of a livelock scenario where two threads try to be polite and give way to each other:
+
+     ```java
+     public class LivelockExample {
+         private static boolean isPolite = true;
+     
+         public static void main(String[] args) {
+             Thread thread1 = new Thread(() -> {
+                 while (isPolite) {
+                     System.out.println("Thread 1: After you...");
+                     try {
+                         Thread.sleep(100);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                     isPolite = false;
+                 }
+             });
+     
+             Thread thread2 = new Thread(() -> {
+                 while (isPolite) {
+                     System.out.println("Thread 2: No, after you...");
+                     try {
+                         Thread.sleep(100);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                     isPolite = false;
+                 }
+             });
+     
+             thread1.start();
+             thread2.start();
+         }
+     }
+     ```
+
+3. **Starvation**:
+   - Starvation occurs when a thread is unable to gain regular access to shared resources and is unable to make progress.
+   - This typically happens when other threads are constantly accessing the shared resources, preventing the starved thread from accessing them.
+   - Here's a simple example of starvation where a low-priority thread is starved by high-priority threads:
+
+     ```java
+     public class StarvationExample {
+         public static void main(String[] args) {
+             Runnable runnable = () -> {
+                 while (true) {
+                     System.out.println(Thread.currentThread().getName() + " is running.");
+                 }
+             };
+     
+             Thread lowPriorityThread = new Thread(runnable);
+             lowPriorityThread.setPriority(Thread.MIN_PRIORITY);
+             lowPriorityThread.start();
+     
+             for (int i = 0; i < 5; i++) {
+                 Thread highPriorityThread = new Thread(runnable);
+                 highPriorityThread.setPriority(Thread.MAX_PRIORITY);
+                 highPriorityThread.start();
+             }
+         }
+     }
+     ```
+
+These are common issues in multi-threaded programming, and careful design and analysis are required to prevent or resolve them effectively.
