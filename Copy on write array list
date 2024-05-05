@@ -1,0 +1,42 @@
+`CopyOnWriteArrayList` is a concurrent collection class introduced in Java 5, which provides a thread-safe variant of `ArrayList`. It is part of the `java.util.concurrent` package. 
+
+Here are some key features of `CopyOnWriteArrayList`:
+
+1. **Thread Safety**: `CopyOnWriteArrayList` is designed to be thread-safe. It allows multiple threads to read from it concurrently without the need for external synchronization. However, write operations (such as add, set, remove) are expensive as they involve copying the entire underlying array.
+
+2. **Copy-On-Write Semantics**: When a write operation (e.g., add or set) is performed on a `CopyOnWriteArrayList`, it creates a new copy of the underlying array, called a "snapshot", and performs the modification on the copy. This ensures that any ongoing iterations over the list are not affected by the modification.
+
+3. **Iterators**: Iterators returned by `CopyOnWriteArrayList` are guaranteed to traverse the elements as they existed at the time the iterator was created. They will not throw `ConcurrentModificationException` even if the list is modified concurrently during iteration.
+
+4. **Use Cases**: `CopyOnWriteArrayList` is useful in scenarios where reads are much more frequent than writes, and thread safety is required. It is commonly used in scenarios where a list is frequently read by multiple threads but rarely modified.
+
+Here's a simple example of how to use `CopyOnWriteArrayList`:
+
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Example {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Orange");
+
+        // Iterating over the list
+        for (String fruit : list) {
+            System.out.println(fruit);
+        }
+
+        // Modifying the list
+        list.add("Grapes");
+
+        // Iterating again, the iterator will not be affected by the modification
+        for (String fruit : list) {
+            System.out.println(fruit);
+        }
+    }
+}
+```
+
+In this example, `CopyOnWriteArrayList` is used to store a list of fruits. Even though the list is modified after the initial iteration, the iterator still traverses the original elements without any issues.
