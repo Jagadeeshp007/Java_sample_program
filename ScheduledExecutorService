@@ -1,0 +1,36 @@
+import java.util.concurrent.*;
+
+public class ScheduledExecutorWithBarrier {
+    
+    public static void main(String[] args) {
+        int numThreads = 3;
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(numThreads);
+        CyclicBarrier barrier = new CyclicBarrier(numThreads);
+
+        for (int i = 0; i < numThreads; i++) {
+            executor.schedule(new Worker(barrier), i + 1, TimeUnit.SECONDS);
+        }
+
+        executor.shutdown();
+    }
+}
+
+class Worker implements Runnable {
+    
+    private CyclicBarrier barrier;
+
+    public Worker(CyclicBarrier barrier) {
+        this.barrier = barrier;
+    }
+
+    @Override
+    public void run() {
+        try {
+            System.out.println("Thread " + Thread.currentThread().getName() + " is waiting at the barrier.");
+            barrier.await();
+            System.out.println("Thread " + Thread.currentThread().getName() + " passed the barrier.");
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+    }
+}
