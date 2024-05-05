@@ -1,0 +1,52 @@
+To fix the potential hanging issue in a method and add a timeout, you can use the `ExecutorService` and `Future` in Java. Here's how you can do it:
+
+```java
+import java.util.concurrent.*;
+
+public class TimeoutExample {
+
+    public static void main(String[] args) {
+        // Create an ExecutorService
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        // Define a callable task
+        Callable<String> task = () -> {
+            // Simulate a long-running operation
+            Thread.sleep(3000);
+            return "Task completed successfully";
+        };
+
+        try {
+            // Submit the task and get a Future object
+            Future<String> future = executor.submit(task);
+
+            // Wait for the result with a timeout of 2 seconds
+            String result = future.get(2, TimeUnit.SECONDS);
+            System.out.println("Result: " + result);
+        } catch (TimeoutException e) {
+            // Handle timeout
+            System.err.println("Task timed out");
+            // Cancel the task
+            future.cancel(true);
+        } catch (InterruptedException | ExecutionException e) {
+            // Handle other exceptions
+            e.printStackTrace();
+        }
+
+        // Shutdown the executor
+        executor.shutdown();
+    }
+}
+```
+
+In this example:
+
+- We create a single-threaded `ExecutorService`.
+- We define a `Callable` task that simulates a long-running operation.
+- We submit the task to the executor and get a `Future` object.
+- We use the `get()` method of `Future` with a timeout of 2 seconds. If the task does not complete within the specified timeout, a `TimeoutException` will be thrown.
+- We handle the `TimeoutException` by canceling the task using the `cancel()` method of `Future`.
+- We handle other exceptions such as `InterruptedException` and `ExecutionException`.
+- Finally, we shut down the executor.
+
+This approach allows you to execute a task with a specified timeout and handle the timeout gracefully.
