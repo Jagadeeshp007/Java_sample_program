@@ -1,0 +1,41 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ExecutorServiceExample {
+    
+    public static void main(String[] args) {
+        // Create an ExecutorService with fixed number of threads
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        
+        // Submit tasks to the ExecutorService
+        executor.submit(new MyRunnable("A"));
+        executor.submit(new MyRunnable("B"));
+        
+        // Shutdown the ExecutorService when tasks are completed
+        executor.shutdown();
+    }
+}
+
+class MyRunnable implements Runnable {
+    
+    private String name;
+    
+    public MyRunnable(String name) {
+        this.name = name;
+    }
+    
+    @Override
+    public void run() {
+        System.out.println("Thread " + name + " is running.");
+        // Your thread's task goes here
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Thread " + name + " is counting: " + i);
+            try {
+                Thread.sleep(1000); // Simulating some task
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Thread " + name + " finished.");
+    }
+}
